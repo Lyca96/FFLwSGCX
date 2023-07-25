@@ -1,0 +1,20 @@
+{
+   "groups" : [
+      {   
+         "endpoint" : "Federator:8000",
+         "name" : "Federator"
+      },
+      {   
+         "endpoint" : "W0:8001",
+         "name" : "W0"
+      },
+      {  
+         "endpoint" : "W1:8002",
+         "name" : "W1"
+      },
+      {  
+         "endpoint" : "W2:8003",
+         "name" : "W2"
+      }
+   ]
+}

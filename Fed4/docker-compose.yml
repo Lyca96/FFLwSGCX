@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+
+  Federator:
+    hostname: Federator 
+    image: "fed5"
+    command:
+    - /ffl/build/examples/masterworker/masterworker_dist 1 10 2 /ffl/data --DFF_Config=/ffl/build/examples/masterworker/masterworker.json --DFF_GName=$(hostname) 
+    volumes:
+    - ${PWD}/masterworker_2.json:/ffl/build/examples/masterworker/masterworker.json
+
+
+  W0:
+    hostname: W0
+    image: "fed5"
+    command:
+    - /ffl/build/examples/masterworker/masterworker_dist 1 10 2 /ffl/data --DFF_Config=/ffl/build/examples/masterworker/masterworker.json --DFF_GName=$(hostname) 
+    volumes:
+    - ${PWD}/masterworker_2.json:/ffl/build/examples/masterworker/masterworker.json
+  W1:
+    hostname: W1
+    image: "fed5"
+    command:
+    - /ffl/build/examples/masterworker/masterworker_dist 1 10 2 /ffl/data --DFF_Config=/ffl/build/examples/masterworker/masterworker.json --DFF_GName=$(hostname) 
+    volumes:
+    - ${PWD}/masterworker_2.json:/ffl/build/examples/masterworker/masterworker.json
+  W2:
+    hostname: W2
+    image: "fed5"
+    command:
+    - /ffl/build/examples/masterworker/masterworker_dist 1 10 2 /ffl/data --DFF_Config=/ffl/build/examples/masterworker/masterworker.json --DFF_GName=$(hostname) 
+    volumes:
+    - ${PWD}/masterworker_2.json:/ffl/build/examples/masterworker/masterworker.json
+
+

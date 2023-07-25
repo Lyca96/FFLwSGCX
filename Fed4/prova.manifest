@@ -1,0 +1,49 @@
+# SPDX-License-Identifier: LGPL-3.0-or-later
+
+loader.entrypoint = "file:{{ gramine.libos }}"
+libos.entrypoint = "benchmark_app"
+
+loader.log_level = "{{ log_level }}"
+#####
+loader.env.LD_LIBRARY_PATH = "/lib:{{ openvino_dir }}/deployment_tools/inference_engine/external/tbb/lib:{{ openvino_dir }}/deployment_tools/inference_engine/lib/intel64:{{ openvino_dir }}/opencv/lib:{{ openvino_dir }}/deployment_tools/ngraph/lib:{{ arch_libdir }}:/usr/{{ arch_libdir }}"
+
+fs.mounts = [
+  { uri = "file:{{ gramine.runtimedir() }}", path = "/lib" },
+  { uri = "file:{{ arch_libdir }}", path = "{{ arch_libdir }}" },
+  { uri = "file:/usr/{{ arch_libdir }}", path = "/usr/{{ arch_libdir }}" },
+  { uri = "file:/etc", path = "/etc" },
+  { uri = "file:{{ openvino_dir }}", path = "{{ openvino_dir }}" },
+  { uri = "file:{{ inference_engine_cpp_samples_build }}", path = "{{ inference_engine_cpp_samples_build }}" },
+]
+
+loader.insecure__use_cmdline_argv = true
+
+sgx.enclave_size = "32G"
+sgx.max_threads = 196
+sgx.edmm_enable = {{ 'true' if env.get('EDMM', '0') == '1' else 'false' }}
+
+sgx.preheat_enclave = {{ 'false' if env.get('EDMM', '0') == '1' else 'true' }}
+libos.check_invalid_pointers = false
+
+sgx.trusted_files = [
+  "file:benchmark_app",
+  "file:{{ gramine.libos }}",
+  "file:{{ gramine.runtimedir() }}/",
+  "file:{{ arch_libdir }}/",
+  "file:/usr/{{ arch_libdir }}/",
+  "file:{{ openvino_dir }}/deployment_tools/inference_engine/lib/intel64/",
+  "file:{{ openvino_dir }}/deployment_tools/inference_engine/external/tbb/lib/",
+  "file:{{ openvino_dir }}/opencv/lib/",
+  "file:{{ openvino_dir }}/deployment_tools/ngraph/lib/",
+  "file:{{ inference_engine_cpp_samples_build }}/intel64/Release/lib/",
+  "file:model/",
+]
+
+sgx.allowed_files = [
+  "file:/etc/ethers",
+  "file:/etc/group",
+  "file:/etc/hosts",
+  "file:/etc/nsswitch.conf",
+  "file:/etc/passwd",
+  "file:output.txt",
+]
